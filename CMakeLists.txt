@@ -12,9 +12,10 @@ list(APPEND MMP_SAMPLE_INCS
 )
 
 list(APPEND MMP_SAMPLE_SRCS
-    ${CMAKE_CURRENT_SOURCE_DIR}/PngA.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/PngB.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/AbstractDisplay.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/source/PngA.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/source/PngB.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/source/AbstractDisplay.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/source/SampleUtils.cpp
 )
 
 list(APPEND MMP_SAMPLE_LIBS
@@ -39,7 +40,7 @@ if (SDL2_FOUND)
     message("  -- SDL LIBS : ${SDL2_LIBRARIES}")
     list(APPEND MMP_SAMPLE_INCS ${SDL2_INCLUDE_DIRS})
     list(APPEND MMP_SAMPLE_SRCS
-        ${CMAKE_CURRENT_SOURCE_DIR}/DisplaySDL.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/source/DisplaySDL.cpp
     )
     list(APPEND MMP_SAMPLE_LIBS ${SDL2_LIBRARIES})
     add_definitions(-DSAMPLE_WITH_SDL)
@@ -47,5 +48,6 @@ endif()
 
 add_subdirectory(Core)
 
-add_executable(test_gl_compositor ${CMAKE_CURRENT_SOURCE_DIR}/test_gl_compositor.cpp)
+add_executable(test_gl_compositor ${MMP_SAMPLE_SRCS} ${CMAKE_CURRENT_SOURCE_DIR}/test_gl_compositor.cpp)
 target_link_libraries(test_gl_compositor ${MMP_SAMPLE_LIBS})
+target_include_directories(test_gl_compositor PUBLIC ${MMP_SAMPLE_INCS})
