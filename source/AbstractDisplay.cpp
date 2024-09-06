@@ -3,7 +3,7 @@
 #include <vector>
 
 #ifdef SAMPLE_WITH_SDL
-    #include "SDL/DisplaySDL.h"
+    #include "DisplaySDL.h"
 #endif /* SAMPLE_WITH_SDL */
 
 namespace Mmp
