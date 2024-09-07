@@ -16,6 +16,7 @@ list(APPEND MMP_SAMPLE_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/source/PngB.c
     ${CMAKE_CURRENT_SOURCE_DIR}/source/AbstractDisplay.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/source/SampleUtils.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/source/DisplaySDL.cpp
 )
 
 list(APPEND MMP_SAMPLE_LIBS
@@ -27,24 +28,9 @@ list(APPEND MMP_SAMPLE_LIBS
     Mmp::Windows 
     Mmp::PG 
     Mmp::SL
+    SDL2::SDL2 
+    SDL2::SDL2main
 )
-
-if (NOT SDL2_FOUND)
-    find_package(SDL2 CONFIG)
-endif()
-
-if (SDL2_FOUND)
-    message("-- Found SDL2")
-    message("  -- SDL INCS : ${SDL2_INCLUDE_DIRS}")
-    message("  -- SDL LIB DIR : ${SDL2_LIBRARY_DIRS}")
-    message("  -- SDL LIBS : ${SDL2_LIBRARIES}")
-    list(APPEND MMP_SAMPLE_INCS ${SDL2_INCLUDE_DIRS})
-    list(APPEND MMP_SAMPLE_SRCS
-        ${CMAKE_CURRENT_SOURCE_DIR}/source/DisplaySDL.cpp
-    )
-    list(APPEND MMP_SAMPLE_LIBS ${SDL2_LIBRARIES})
-    add_definitions(-DSAMPLE_WITH_SDL)
-endif()
 
 add_subdirectory(Core)
 

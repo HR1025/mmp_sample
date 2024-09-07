@@ -2,9 +2,7 @@
 
 #include <vector>
 
-#ifdef SAMPLE_WITH_SDL
-    #include "DisplaySDL.h"
-#endif /* SAMPLE_WITH_SDL */
+#include "DisplaySDL.h"
 
 namespace Mmp
 {
@@ -30,12 +28,10 @@ AbstractDisplay::ptr AbstractDisplay::Create(const std::string& className)
         }
         return display;
     }
-#ifdef SAMPLE_WITH_SDL
     else if (className == "DisplaySDL")
     {
         return std::make_shared<DisplaySDL>();
     }
-#endif /* SAMPLE_WITH_SDL */
     else
     {
         return nullptr;

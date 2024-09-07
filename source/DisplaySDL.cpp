@@ -136,7 +136,7 @@ bool DisplaySDL::Open(PixelsInfo info)
         DISPLAY_LOG_ERROR << "Create SDL window fail, error is: " << SDL_GetError();
         return false;
     }
-    _render = SDL_CreateRenderer(_window, -1, SDL_RENDERER_SOFTWARE | SDL_RENDERER_TARGETTEXTURE);
+    _render = SDL_CreateRenderer(_window, -1,  SDL_RENDERER_TARGETTEXTURE);
     if (_render != nullptr)
     {
         DISPLAY_LOG_INFO << "Create SDL render Successfully";

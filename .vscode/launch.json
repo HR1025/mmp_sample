@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "test_gl_compositor",
+            "name": "test_gl_compositor(debian)",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/test_gl_compositor",
@@ -20,6 +20,17 @@
                     "ignoreFailures": true
                 }
             ]
+        },
+        {
+            "name": "test_gl_compositor(msvc)",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/Debug/test_gl_compositor.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "console":"integratedTerminal"
         }
     ]
 }

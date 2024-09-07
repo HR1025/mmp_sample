@@ -135,6 +135,7 @@ void App::HandleDuration(const std::string& name, const std::string& value)
 
 void App::Initialize()
 {
+    ThreadPool::ThreadPoolSingleton()->Init();
     Codec::CodecConfig::Instance()->Init();
     {
         _renderThread = std::thread([this]() -> void
@@ -184,6 +185,7 @@ void App::Uninitialize()
         _renderThread.join();
     }
     Codec::CodecConfig::Instance()->Uninit();
+    ThreadPool::ThreadPoolSingleton()->Uninit();
 }
 
 void App::defineOptions(OptionSet& options)
@@ -289,7 +291,8 @@ int App::main(const ArgVec& args)
         Gpu::Update2DTextures(GLDrawContex::Instance(), std::vector<Texture::ptr>({imageB}), sceneB);
     }
     
-    auto equalSplitScreen = [&](size_t count, size_t fps, uint32_t duration) -> void
+    Promise<void>::ptr lastDraw;
+    auto equalSplitScreen = [&](size_t count, size_t fps, uint64_t duration) -> void
     {
         Gpu::AbstractSceneLayer::ptr layer = Gpu::AbstractSceneLayer::Create();
         std::vector<Gpu::SceneItemParam> params;
@@ -362,19 +365,31 @@ int App::main(const ArgVec& args)
                 itemParamOffset++;
             }
             layer->Draw(framebuffer);
-            Gpu::Copy2DTexturesToMemory(GLDrawContex::Instance(), std::vector<Texture::ptr>({framebuffer}), fb);
-            if (display)
+            if (lastDraw)
             {
-                display->UpdateWindow((const uint32_t*)(fb->GetData()), info);
+                lastDraw->Wait();
             }
-            curDrawTime++;
+            Gpu::Copy2DTexturesToMemory(GLDrawContex::Instance(), std::vector<Texture::ptr>({framebuffer}), fb);
             if (stamp.elapsed()/1000 > 1000 / fps)
             {
                 MMP_LOG_WARN << "overload, cost time is: " << stamp.elapsed()/1000 << " ms";
             }
+            lastDraw = std::make_shared<Promise<void>>([display, fb, info]()
+            {
+                if (display)
+                {
+                    display->UpdateWindow((const uint32_t*)(fb->GetData()), info);
+                }
+            });
+            ThreadPool::ThreadPoolSingleton()->Commit(lastDraw);
+            curDrawTime++;
             std::this_thread::sleep_for(std::chrono::milliseconds(1000 / fps - stamp.elapsed()/1000));
         }
         layer.reset();
+        if (lastDraw)
+        {
+            lastDraw->Wait();
+        }
     };
 
     equalSplitScreen(splitNum, fps, duration);

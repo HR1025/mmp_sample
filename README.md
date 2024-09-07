@@ -17,12 +17,34 @@
 ### Linux (Debian System)
 
 ```shell
-sudo apt install libgbm-dev libsdl2-dev libgl1-mesa-dev* nasm libx11-dev libdrm-dev libva-dev
+sudo apt install libgbm-dev libgl1-mesa-dev* nasm libx11-dev libdrm-dev libva-dev
 rm -rf build
 mkdir build
 git submodule update --init --recursive
 cd build && cmake .. -DUSE_OPENGL=ON -DUSE_GBM=ON -DUSE_SDL=ON -DUSE_SPRIV_CROSS=ON -DUSE_VULKAN=ON -DUSE_X11=ON -DUSE_VAAPI=ON -DUSE_OPENH264=ON && make -j4
 ```
+
+## Windows (MSVC 2022 x64)
+
+```shell
+git submodule update --init --recursive
+mkdir build
+cmake --no-warn-unused-cli -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE -S. -B./build -G "Visual Studio 17 2022" -T host=x86 -A win32
+cmake --build build --config Release -j 16
+```
+
+## Windows (MSVC 2022 x86)
+
+```shell
+git submodule update --init --recursive
+mkdir build
+cmake --no-warn-unused-cli -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE -S. -B./build -G "Visual Studio 17 2022" -T host=x64 -A x64
+cmake --build build --config Release -j 16
+```
+
+>
+> `Windows` 也可以直接使用 `IDE` 进行构建, 在构建时选择对应的工具链即可.
+>
 
 ## 如何调试
 
@@ -32,7 +54,7 @@ cd build && cmake .. -DUSE_OPENGL=ON -DUSE_GBM=ON -DUSE_SDL=ON -DUSE_SPRIV_CROSS
 
 >
 > 详细的配置可以通过 `-h` 进行查看.
->  
+>
 
 ### test_gl_compositor
 

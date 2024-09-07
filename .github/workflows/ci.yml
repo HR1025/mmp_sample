@@ -16,3 +16,21 @@ jobs:
       - run : mkdir build
       - run : git submodule update --init --recursive
       - run : cd build && cmake .. -DUSE_OPENGL=ON -DUSE_GBM=ON -DUSE_SDL=ON -DUSE_SPRIV_CROSS=ON -DUSE_VULKAN=ON -DUSE_X11=ON -DUSE_VAAPI=ON -DUSE_OPENH264=ON && make -j4
+
+  msvc2022-x64-make:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v1
+      - run : git submodule update --init --recursive
+      - run : mkdir build
+      - run : cmake --no-warn-unused-cli -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE -S. -B./build -G "Visual Studio 17 2022" -T host=x64 -A x64
+      - run : cmake --build build --config Release -j 16
+
+  msvc2022-x86-make:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v1
+      - run : git submodule update --init --recursive
+      - run : mkdir build
+      - run : cmake --no-warn-unused-cli -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE -S. -B./build -G "Visual Studio 17 2022" -T host=x86 -A win32
+      - run : cmake --build build --config Release -j 16
