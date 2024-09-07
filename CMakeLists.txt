@@ -37,3 +37,7 @@ add_subdirectory(Core)
 add_executable(test_gl_compositor ${MMP_SAMPLE_SRCS} ${CMAKE_CURRENT_SOURCE_DIR}/test_gl_compositor.cpp)
 target_link_libraries(test_gl_compositor ${MMP_SAMPLE_LIBS})
 target_include_directories(test_gl_compositor PUBLIC ${MMP_SAMPLE_INCS})
+
+add_executable(test_gl_transition ${MMP_SAMPLE_SRCS} ${CMAKE_CURRENT_SOURCE_DIR}/test_gl_transition.cpp)
+target_link_libraries(test_gl_transition ${MMP_SAMPLE_LIBS})
+target_include_directories(test_gl_transition PUBLIC ${MMP_SAMPLE_INCS})

@@ -22,10 +22,41 @@
             ]
         },
         {
+            "name": "test_gl_transition(debian)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/test_gl_transition",
+            "args": [
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "为 gdb 启用整齐打印",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
             "name": "test_gl_compositor(msvc)",
             "type": "cppvsdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/Debug/test_gl_compositor.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "console":"integratedTerminal"
+        },
+        {
+            "name": "test_gl_transition(msvc)",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/Debug/test_gl_transition.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
