@@ -85,12 +85,23 @@ void App::displayHelp()
     helpFormatter.setUsage("OPTIONS");
     helpFormatter.setHeader("Simple program to test nxn Compositor using MMP-Core.");
     helpFormatter.format(ss);
+    ss << "Available transition:" << std::endl;
+    ss << "\t" << "BowTieHorizontalTransition, BowTieVerticalTransition, DirectionalTransition, GlitchMemoriesTransition" << std::endl;
+    ss << "\t" << "InvertedPageCurlTransition, LinearBlurTransition, PolkaDotsCurtainTransition, SimpleZoomTransition" << std::endl;
+    ss << "\t" << "StereoViewerTransition, WaterDropTransition, WindowsliceTransition, CircleCropTransition" << std::endl;
+    ss << "\t" << "ColourDistanceTransition, DirectionalwarpTransition, MorphTransition, PerlinTransition" << std::endl;
+    ss << "\t" << "SwirlTransition, CannabisleafTransition, ButterflyWaveScrawlerTransition, CrazyParametricFunTransition" << std::endl;
+    ss << "\t" << "CrosshatchTransition, CrossZoomTransition, DreamyTransition, KaleidoscopeTransition" << std::endl;
+    ss << "\t" << "GridFlipTransition, RadialTransition, ZoomInCirclesTransition, AngularTransition" << std::endl;
+    ss << "\t" << "BurnTransition, CircleopenTransition, CircleTransition, ColorphaseTransition" << std::endl;
+    ss << "\t" << "DoomScreenTransitionTransition, DreamyZoomTransition, GlitchDisplaceTransition, HexagonalizeTransition" << std::endl;
+    ss << "\t" << "PinwheelTransition, RippleTransition, WindowblindsTransition, CrosswarpTransition" << std::endl;
+    ss << "\t" << "CubeTransition, DirectionalwipeTransition, DoorwayTransition, FadecolorTransition" << std::endl;
+    ss << "\t" << "FadegrayscaleTransition, FadeTransition, FlyeyeTransition, HeartTransition" << std::endl;
+    ss << "\t" << "PixelizeTransition, PolarFunctionTransition, RandomsquaresTransition, SquareswireTransition" << std::endl;
+    ss << "\t" << "SqueezeTransition, SwapTransition, WindTransition" << std::endl;
+    ss << "(see `https://gl-transitions.com/gallery` for more information)" << std::endl;
     MMP_LOG_INFO << ss.str();
-    MMP_LOG_INFO << "Available transition:";
-    MMP_LOG_INFO << "\t" << "BowTieHorizontalTransition, BowTieVerticalTransition, DirectionalTransition, GlitchMemoriesTransition";
-    MMP_LOG_INFO << "\t" << "InvertedPageCurlTransition, LinearBlurTransition, PolkaDotsCurtainTransition, SimpleZoomTransition";
-    MMP_LOG_INFO << "\t" << "StereoViewerTransition, WaterDropTransition, WindowsliceTransition";
-    MMP_LOG_INFO << "(see `https://gl-transitions.com/gallery` for more information)";
     exit(0);
 }
 
@@ -193,7 +204,7 @@ void App::defineOptions(OptionSet& options)
         .argument("[type]")
         .callback(OptionCallback<App>(this, &App::HandleBackend))
     );
-    options.addOption(Option("duration", "d", "default(30) second")
+    options.addOption(Option("duration", "d", "default(1) second")
         .required(false)
         .repeatable(false)
         .argument("[num]")

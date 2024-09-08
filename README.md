@@ -1,6 +1,6 @@
 # README
 
-简体中文
+简体中文 | [English](./README_en.md)
 
 ## 简介
 
@@ -53,7 +53,7 @@ cmake --build build --config Release -j 16
 ## 用例
 
 >
-> 详细的配置可以通过 `-h` 进行查看.
+> 详细的配置可以通过 `-h` 进行查看. (`Windows` 上使用 `\h`)
 >
 
 ### test_gl_compositor
@@ -75,6 +75,26 @@ cmake --build build --config Release -j 16
 效果图:
 
 ![test_gl_compositor](./images/test_gl_compositor.png)
+
+### test_gl_transition
+
+`test_gl_transition` 展现了如何实现转场的效果, 转场一般出现在画面切换的时候.
+
+`MMP-Core` 的转场移植自 [gl-transitions](https://github.com/gl-transitions/gl-transitions), 对其进行部分修改以便于同时支持 `GLSL` 和 `HLSL`.
+
+`test_gl_compositor` 支持一些配置项, 如下:
+
+- backend : 处理节点, 可能可选 OPENGL, OPENGL_ES, D3D11 和 VULKAN
+- transition : 转场类型, 详细见 `-h`
+- duration : 持续时间, 单位为 s
+
+以下是 `SwapTransition` 在不同阶段的效果 `progress` 在 `0.25`, `0.5` 及 `0.75` 的效果:
+
+![transition_25](./images/transition_25.png)
+
+![transition_50](./images/transition_50.png)
+
+![transition_75](./images/transition_75.png)
 
 ## 其他
 
