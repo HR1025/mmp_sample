@@ -24,7 +24,7 @@ git submodule update --init --recursive
 cd build && cmake .. -DUSE_OPENGL=ON -DUSE_GBM=ON -DUSE_SDL=ON -DUSE_SPRIV_CROSS=ON -DUSE_VULKAN=ON -DUSE_X11=ON -DUSE_VAAPI=ON -DUSE_OPENH264=ON && make -j4
 ```
 
-## Windows (MSVC 2022 x64)
+## Windows (MSVC 2022 x86)
 
 ```shell
 git submodule update --init --recursive
@@ -33,7 +33,7 @@ cmake --no-warn-unused-cli -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE -S. -B./bui
 cmake --build build --config Release -j 16
 ```
 
-## Windows (MSVC 2022 x86)
+## Windows (MSVC 2022 x64)
 
 ```shell
 git submodule update --init --recursive
