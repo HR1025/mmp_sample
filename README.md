@@ -96,6 +96,17 @@ cmake --build build --config Release -j 16
 
 ![transition_75](./images/transition_75.png)
 
+### test_decoder
+
+`test_decoder` 展示了如何使用不同平台的解码器,解码不同的编码类型.
+
+`test_decoder` 支持一些配置项, 如下:
+
+- codec_name : 解码器名称 (可以通过 `-h` 查看具体支持的解码器)
+- input : 输入文件
+- display : 是否输出至屏幕
+- fps : 刷新帧率
+
 ## 其他
 
 在不同的平台上, 或者不同的驱动上, 相同的测试用例可能出现不同的效果, 或者更严重点甚至无法运行或者崩溃.

@@ -96,6 +96,17 @@ Below is an illustration of the SwapTransition at different stages (`progress` a
 
 ![transition_75](./images/transition_75.png)
 
+### test_decoder
+
+`test_decoder` demonstrates how to use decoders on different platforms to decode various types of codecs.
+
+`test_decoder` supports several configuration options as follows:
+
+- codec_name: Name of the decoder (you can view the supported decoders using `-h`)
+- input: Input file
+- display: Whether to output to the screen
+- fps: Refresh rate
+
 ## Others
 
 On different platforms or drivers, identical test cases may yield different results or even fail or crash due to cross-platform compatibility issues that are hard to detect and address during development or due to logical errors within MMP-Core itself.
