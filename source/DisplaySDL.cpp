@@ -202,6 +202,18 @@ void DisplaySDL::UpdateWindow(const uint32_t* frameBuffer, PixelsInfo info)
             SDL_UpdateTexture(_texture, NULL, reinterpret_cast<const void*>(frameBuffer), sizeof(uint32_t)*_windowWidth);
             break;
         }
+        case PixelFormat::NV12:
+        {
+            SDL_Rect rect;
+            {
+                rect.x = 0;
+                rect.y = 0;
+                rect.w = info.width;
+                rect.h = info.height;
+            }
+            SDL_UpdateNVTexture(_texture, &rect, (uint8_t*)frameBuffer, info.width, (uint8_t*)frameBuffer + info.width * info.height, info.width);
+            break;
+        }
         case PixelFormat::YUV420P:
         {
             uint8_t* yData = (uint8_t*)frameBuffer;
