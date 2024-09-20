@@ -7,6 +7,7 @@
 #include "Common/AbstractLogger.h"
 #include "Common/LogMessage.h"
 #include "Common/ThreadPool.h"
+#include "Codec/StreamPack.h"
 #include "Codec/StreamFrame.h"
 #include "Codec/CodecConfig.h"
 #include "Codec/CodecFactory.h"
@@ -25,7 +26,7 @@ public:
     explicit H26XFileByteReader(const std::string& path);
     ~H26XFileByteReader();
 public:
-    NormalPack::ptr GetNalUint();
+    Codec::StreamPack::ptr GetNalUint();
 public:
     size_t Read(void* data, size_t bytes);
     bool Seek(size_t offset);
@@ -40,7 +41,7 @@ private:
     uint32_t _len;
 };
 
-NormalPack::ptr H26XFileByteReader::GetNalUint()
+Codec::StreamPack::ptr H26XFileByteReader::GetNalUint()
 {
     std::vector<uint8_t> bufs;
     bufs.reserve(1024 * 1024);
@@ -79,7 +80,7 @@ NormalPack::ptr H26XFileByteReader::GetNalUint()
     }
     std::shared_ptr<ImmutableVectorAllocateMethod<uint8_t>> alloc = std::make_shared<ImmutableVectorAllocateMethod<uint8_t>>();
     alloc->container.swap(bufs);
-    return std::make_shared<NormalPack>(alloc->container.size(), alloc);
+    return std::make_shared<Codec::StreamPack>(Codec::CodecType::H264, alloc->container.size(), alloc);
 }
 
 H26XFileByteReader::H26XFileByteReader(const std::string& path)
@@ -219,7 +220,7 @@ void App::displayHelp()
     helpFormatter.format(ss);
     ss << std::endl;
     ss << "Available Decoder Info" << std::endl;
-    std::vector<Codec::CodecDescription> descriptions = Codec::DecoderFactory::DecoderFactory().GetDecoderDescriptions();
+    std::vector<Codec::CodecDescription> descriptions = Codec::DecoderFactory::DefaultFactory().GetDecoderDescriptions();
     for (auto& description : descriptions)
     {
         ss << "-- CodecType(" << description.codecType << ") CodecProcessType(" << description.processType 
@@ -366,7 +367,7 @@ int App::main(const ArgVec& args)
         display->Init();
     }
     std::shared_ptr<H26XFileByteReader> byteReader = std::make_shared<H26XFileByteReader>(inputFile);
-    NormalPack::ptr pack = nullptr;
+    Codec::StreamPack::ptr pack = nullptr;
 
     //
     // Input File Read -> VDEC PUSH
@@ -396,7 +397,7 @@ int App::main(const ArgVec& args)
                 }
                 if (display)
                 {
-                    display->UpdateWindow((const uint32_t*)streamFrame->GetData(0));
+                    display->UpdateWindow((const uint32_t*)streamFrame->GetData(0), streamFrame->info);
                     if (intervalMs > sw.elapsed() / 1000)
                     {
                         std::this_thread::sleep_for(std::chrono::milliseconds(intervalMs - sw.elapsed() / 1000));

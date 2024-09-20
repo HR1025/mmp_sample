@@ -119,6 +119,10 @@ bool DisplaySDL::Open(PixelsInfo info)
     {
         format = SDL_PIXELFORMAT_NV12;
     }
+    else if (info.format == PixelFormat::YUV420P)
+    {
+        format = SDL_PIXELFORMAT_IYUV;
+    }
     else
     {
         DISPLAY_LOG_ERROR << "Unsupport pixel format, pixel format is: " << _format;
@@ -196,6 +200,21 @@ void DisplaySDL::UpdateWindow(const uint32_t* frameBuffer, PixelsInfo info)
         case PixelFormat::BGRA8888:
         {
             SDL_UpdateTexture(_texture, NULL, reinterpret_cast<const void*>(frameBuffer), sizeof(uint32_t)*_windowWidth);
+            break;
+        }
+        case PixelFormat::YUV420P:
+        {
+            uint8_t* yData = (uint8_t*)frameBuffer;
+            uint8_t* uData = yData + (info.virStride * info.horStride);
+            uint8_t* vData = uData + (info.virStride * info.horStride / 4);
+            SDL_Rect rect;
+            {
+                rect.x = 0;
+                rect.y = 0;
+                rect.w = info.width;
+                rect.h = info.height;
+            }
+            SDL_UpdateYUVTexture(_texture, &rect, yData, info.horStride, uData, info.horStride/2, vData, info.horStride/2);
             break;
         }
         default:
