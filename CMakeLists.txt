@@ -27,7 +27,6 @@ list(APPEND MMP_SAMPLE_LIBS
     Mmp::GL 
     Mmp::Windows 
     Mmp::PG 
-    Mmp::SL
     SDL2::SDL2 
     SDL2::SDL2main
 )
