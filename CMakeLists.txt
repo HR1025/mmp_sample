@@ -30,6 +30,7 @@ list(APPEND MMP_SAMPLE_SRCS
 list(APPEND MMP_SAMPLE_LIBS
     Mmp::Common
     Mmp::Codec 
+    Mmp::Stream
     Poco::Foundation 
     Poco::Util 
     Mmp::GL 
@@ -37,6 +38,12 @@ list(APPEND MMP_SAMPLE_LIBS
     Mmp::PG 
     SDL2::SDL2 
     SDL2::SDL2main
+    udev
+    Poco::Net
+    Poco::XML
+    ZLMediaKit::MediaKit
+    ZLMediaKit::ext-codec
+    ZLMediaKit::SRT
 )
 
 add_subdirectory(Core)
